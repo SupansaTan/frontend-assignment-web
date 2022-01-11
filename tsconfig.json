@@ -9,6 +9,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "lib": [
