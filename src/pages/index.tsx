@@ -1,9 +1,17 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
+import SearchTripComponent from '../components/search-trip/search-trip';
+import TripCardComponent from '../components/trip-card/trip-card';
 
 function HomePage() {
   return(
     <React.Fragment>
-      <h1 className="text-center">เที่ยวไหนดี</h1>
+      <Row>
+        <h1 className="text-center">เที่ยวไหนดี</h1>
+
+        <SearchTripComponent/>
+        <TripCardComponent/>
+      </Row>
     </React.Fragment>
   )
 }
