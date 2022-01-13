@@ -1,0 +1,36 @@
+@import './variable.scss';
+
+/* background color */
+.bg {
+  &-lightgrey {
+    background-color: $light-grey;
+  }
+
+  &-blue {
+    background-color: $blue !important;
+  }
+}
+
+/* border color */
+.border {
+  &-lightgrey {
+    border-color: $light-grey;
+  }
+}
+
+.text {
+  &-blue {
+    color: $blue !important;
+  }
+}
+
+/* border radius */
+.rounded {
+  &-15 {
+    border-radius: 15px !important;
+  }
+
+  &-25 {
+    border-radius: 25px !important;
+  }
+}

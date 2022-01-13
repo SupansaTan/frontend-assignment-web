@@ -11,6 +11,8 @@
     "noImplicitReturns": true,
     "strictPropertyInitialization": false,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "skipLibCheck": true,
     "lib": [
       "dom",
