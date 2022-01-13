@@ -1,0 +1,11 @@
+@import '../../scss/variable';
+
+.tag-btn {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+
+  &:hover, &:active, &:focus {
+    border-color: #eeeeee;
+    background-color: #eeeeee;
+  }
+}
