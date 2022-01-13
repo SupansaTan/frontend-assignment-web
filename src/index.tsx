@@ -4,6 +4,8 @@ import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
