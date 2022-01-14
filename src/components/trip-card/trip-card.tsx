@@ -31,7 +31,7 @@ function TripCardComponent() {
             <Card key={trip.eid} className="border-0 my-4">
               <Row>
                 <Col xs="auto">
-                  <Image src={trip.photos[0]} width={150} height={200} className="rounded-3" alt={trip.title}/>
+                  <Image src={trip.photos[0]} width={150} height={200} className="trip-img rounded-15" alt={trip.title}/>
                 </Col>
 
                 <Col>
