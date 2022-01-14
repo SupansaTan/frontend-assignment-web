@@ -1,0 +1,24 @@
+.share-btn {
+  &:hover, &:active, &:focus {
+    border-color: #e2e2e2;
+    background-color: #e2e2e2;
+  }
+}
+
+.search-wrapper {
+  .bi-search {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+
+  .bi-x-lg {
+    top: 50%;
+    right: 45px;
+    transform: translateY(-50%);
+  }
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}

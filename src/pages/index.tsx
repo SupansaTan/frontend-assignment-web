@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Typewriter from 'typewriter-effect';
+import { SearchTermsProvider } from '../context/search-terms';
 import SearchTripComponent from '../components/search-trip/search-trip';
 import TripCardComponent from '../components/trip-card/trip-card';
 import './index.scss';
@@ -17,8 +18,10 @@ function HomePage() {
           }}
         />
 
-        <SearchTripComponent/>
-        <TripCardComponent/>
+        <SearchTermsProvider>
+          <SearchTripComponent/>
+          <TripCardComponent/>
+        </SearchTermsProvider>
       </Row>
     </React.Fragment>
   )
