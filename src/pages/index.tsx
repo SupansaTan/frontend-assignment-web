@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import Typewriter from 'typewriter-effect';
 import { SearchTermsProvider } from '../context/search-terms';
 import SearchTripComponent from '../components/search-trip/search-trip';
 import TripCardComponent from '../components/trip-card/trip-card';
+import { useTitle } from '../useTitle';
 import { useNavigate } from "react-router-dom"
 import { useSearchParams } from 'react-router-dom';
 import './index.scss';
@@ -12,6 +13,7 @@ function HomePage() {
   const [searchParams] = useSearchParams()
   const [ searchText, setSearchText ]  = useState<string>('')
   const navigate = useNavigate()
+  useTitle("เที่ยวไหนดี")
 
   useEffect(() => {
     const keyword = searchParams.get("q");
