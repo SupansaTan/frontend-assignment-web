@@ -24,7 +24,7 @@ function HomePage() {
     setUrlParams();
   }, [searchText])
 
-  const onSearch = (inputText: string) => {
+  const changeSearchText = (inputText: string) => {
     setSearchText(inputText);
   }
 
@@ -50,8 +50,8 @@ function HomePage() {
         />
 
         <SearchTermsProvider>
-          <SearchTripComponent searchText={searchText} onSearch={onSearch} />
-          <TripCardComponent searchTerms={searchText}/>
+          <SearchTripComponent searchText={searchText} onSearch={changeSearchText} />
+          <TripCardComponent searchTerms={searchText} onClickTag={changeSearchText}/>
         </SearchTermsProvider>
       </Row>
     </React.Fragment>
