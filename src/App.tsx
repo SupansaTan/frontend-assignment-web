@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import LayoutComponent from './components/layout/layout';
 import routes from './routes';
 import './App.scss';
@@ -20,6 +20,7 @@ function App() {
               ) : (null);
             })
           }
+          <Route path="*" element={<Navigate to="/trip-finder" />} />
         </Routes>
       </LayoutComponent>
     </BrowserRouter>
