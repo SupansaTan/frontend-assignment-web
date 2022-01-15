@@ -28,7 +28,7 @@ function LayoutComponent({ children }: Props) {
 
   return(
     <React.Fragment>
-      <Navbar className={"bg-blue " + (isScroll? '':'d-none')} sticky="top">
+      <Navbar className={"bg-blue transition-all " + (isScroll? 'opacity-100':'opacity-0')} sticky="top">
         <Container>
           <Navbar.Brand href="/" className="fw-bold text-white">เที่ยวไหนดี</Navbar.Brand>
         </Container>
