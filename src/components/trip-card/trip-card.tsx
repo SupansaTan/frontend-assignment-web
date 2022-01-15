@@ -14,9 +14,13 @@ interface ImageGroupProps {
   photos: Array<string>
 }
 
-function TripCardComponent() {
+interface Props {
+  fetchData: boolean;
+  searchTerms: string;
+}
+
+function TripCardComponent({ fetchData, searchTerms }: Props) {
   const [ trips, setTrips ] = useState<Array<TripModel>>([])
-  const { searchTerms } = useContext(SearchTermsContext)
 
   useEffect(() => {
     async function fetchTripsData() {
@@ -38,7 +42,7 @@ function TripCardComponent() {
     }
     
     fetchTripsData()
-  }, [searchTerms])
+  }, [fetchData])
 
   return(
     <React.Fragment>
@@ -52,7 +56,7 @@ function TripCardComponent() {
                 </Col>
 
                 <Col xs={12} className="col-lg">
-                  <a href={trip.url} className="text-decoration-none text-black">
+                  <a href={trip.url} target="_blank" className="text-decoration-none text-black">
                     <h4 className="fw-bold">{ trip.title }</h4>
                   </a>
 

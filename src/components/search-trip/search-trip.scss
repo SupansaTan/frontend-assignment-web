@@ -1,4 +1,4 @@
-.share-btn {
+.share-btn, .search-btn {
   &:hover, &:active, &:focus {
     border-color: #e2e2e2;
     background-color: #e2e2e2;
@@ -6,15 +6,9 @@
 }
 
 .search-wrapper {
-  .bi-search {
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-  }
-
   .bi-x-lg {
     top: 50%;
-    right: 45px;
+    right: 10px;
     transform: translateY(-50%);
   }
 }
