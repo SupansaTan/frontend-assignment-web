@@ -57,9 +57,9 @@ function SearchTripComponent(props: Props) {
                 value={inputText}
                 onChange={(e) => {onSearchTermsChange(e.target.value);}}
                 onKeyPress={handleKeyPress}
-                placeholder="อยากไปเที่ยวไหน ลองค้นหาดูเลย"
+                placeholder="หาที่เที่ยวแล้วไปกัน..."
                 id="search_terms"
-                className="my-4 border-0 border-bottom rounded-0 shadow-none"
+                className="my-4 border-0 border-bottom rounded-0 shadow-none text-center search-trip"
                 aria-label="SearchTrip"
               />
               <a onClick={(e) => {e.preventDefault(); clearSearchTerms();}}>
