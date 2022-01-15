@@ -15,34 +15,33 @@ interface ImageGroupProps {
 }
 
 interface Props {
-  fetchData: boolean;
   searchTerms: string;
 }
 
-function TripCardComponent({ fetchData, searchTerms }: Props) {
+function TripCardComponent({ searchTerms }: Props) {
   const [ trips, setTrips ] = useState<Array<TripModel>>([])
 
   useEffect(() => {
-    async function fetchTripsData() {
-      try {
-        if(searchTerms.length > 0) {
-          const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=` + searchTerms);
-          const data = await response.json();
-          setTrips(data.trips)
-        }
-        else {
-          const response = await fetch(`${environment.apiGateway.URL}/api/trips`);
-          const data = await response.json();
-          setTrips(data.trips)
-        }
-      } 
-      catch (error) {
-        console.log(error);
-      }
-    }
-    
     fetchTripsData()
-  }, [fetchData])
+  }, [searchTerms])
+
+  async function fetchTripsData() {
+    try {
+      if(searchTerms.length > 0) {
+        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=` + searchTerms);
+        const data = await response.json();
+        setTrips(data.trips)
+      }
+      else {
+        const response = await fetch(`${environment.apiGateway.URL}/api/trips`);
+        const data = await response.json();
+        setTrips(data.trips)
+      }
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   return(
     <React.Fragment>

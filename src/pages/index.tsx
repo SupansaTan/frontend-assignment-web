@@ -10,22 +10,22 @@ import './index.scss';
 
 function HomePage() {
   const [searchParams] = useSearchParams()
-  const [ fetchNewData, setFetchNewData ] = useState<boolean>(false)
-  const [ searchText, setSearchText]  = useState<string>('')
+  const [ searchText, setSearchText ]  = useState<string>('')
   const navigate = useNavigate()
 
   useEffect(() => {
     const keyword = searchParams.get("q");
     if(keyword) {
       setSearchText(keyword);
-      setFetchNewData(!fetchNewData);
     }
   }, [searchParams])
 
+  useEffect(() => {
+    setUrlParams();
+  }, [searchText])
+
   const onSearch = (inputText: string) => {
     setSearchText(inputText);
-    setFetchNewData(!fetchNewData);
-    setUrlParams();
   }
 
   const setUrlParams = () => {
@@ -50,8 +50,8 @@ function HomePage() {
         />
 
         <SearchTermsProvider>
-          <SearchTripComponent searchText={searchText} setSearchText={setSearchText} onSearch={onSearch} />
-          <TripCardComponent searchTerms={searchText} fetchData={fetchNewData} />
+          <SearchTripComponent searchText={searchText} onSearch={onSearch} />
+          <TripCardComponent searchTerms={searchText}/>
         </SearchTermsProvider>
       </Row>
     </React.Fragment>

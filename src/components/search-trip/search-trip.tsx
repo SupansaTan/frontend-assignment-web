@@ -1,17 +1,20 @@
 import React, { useContext, useState, useEffect, Dispatch, SetStateAction, ChangeEvent } from 'react';
-import { useNavigate } from "react-router-dom"
-import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Button, Spinner, FormControl } from 'react-bootstrap';
 import { SearchTermsContext } from '../../context/search-terms';
 import './search-trip.scss';
 
 interface Props {
-  onSearch: any;
   searchText: string;
-  setSearchText: any;
+  onSearch: any;
 }
 
 function SearchTripComponent(props: Props) {
   const [ isLoading, setIsLoading ] = useState(false)
+  const [ inputText, setInputText] = useState('');
+
+  useEffect(() => {
+    setInputText(props.searchText)
+  }, [props.searchText])
 
   const copyToClipboard = () => {
     setTimeout(
@@ -24,11 +27,22 @@ function SearchTripComponent(props: Props) {
   }
 
   const onSearchTermsChange = (value: string) => {
-    props.setSearchText(value)
+    setInputText(value)
   }
 
   const clearSearchTerms = () => {
-    props.searchText = props.setSearchText('');
+    setInputText('');
+    props.onSearch('');
+  }
+
+  const handleKeyPress = (target: React.KeyboardEvent) => {
+    if(target.key == 'Enter'){
+      onSubmitSearch()
+    } 
+  }
+
+  const onSubmitSearch = () => {
+    props.onSearch(inputText)
   }
 
   return(
@@ -40,20 +54,21 @@ function SearchTripComponent(props: Props) {
             <Col className="position-relative search-wrapper">
               <Form.Control
                 type="search"
-                value={props.searchText}
-                onChange={(e) => {onSearchTermsChange(e.target.value)}}
+                value={inputText}
+                onChange={(e) => {onSearchTermsChange(e.target.value);}}
+                onKeyPress={handleKeyPress}
                 placeholder="อยากไปเที่ยวไหน ลองค้นหาดูเลย"
                 id="search_terms"
                 className="my-4 border-0 border-bottom rounded-0 shadow-none"
                 aria-label="SearchTrip"
               />
-              <a onClick={(e) => {e.preventDefault(); clearSearchTerms()}}>
-                <i className={"bi bi-x-lg position-absolute " + (props.searchText.length>0? '':'d-none')}></i>
+              <a onClick={(e) => {e.preventDefault(); clearSearchTerms();}}>
+                <i className={"bi bi-x-lg position-absolute " + (inputText.length>0? '':'d-none')}></i>
               </a>
             </Col>
 
             <Col xs="auto">
-              <Button onClick={() => {props.onSearch(props.searchText)}} className="border-0 shadow-none text-white bg-blue my-4 search-btn">
+              <Button onClick={onSubmitSearch} className="border-0 shadow-none text-white bg-blue my-4 search-btn">
                 <i className="bi bi-search"></i>
               </Button>
             </Col>
