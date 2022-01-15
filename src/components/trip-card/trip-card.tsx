@@ -66,7 +66,7 @@ function TripCardComponent({ searchTerms }: Props) {
                   </ShowMoreText>
 
                   {/* tags */}
-                  <div className="d-flex justify-content-start align-items-center">
+                  <div className="d-flex flex-wrap justify-content-start align-items-center">
                     <span className="me-2 mt-2">หมวด</span>
                     <TagGroup tags={trip.tags}/>
                   </div>
