@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, Dispatch, SetStateAction, ChangeEvent } from 'react';
-import { Form, Row, Col, Button, Spinner, FormControl } from 'react-bootstrap';
-import { SearchTermsContext } from '../../context/search-terms';
+import React, { useState, useEffect } from 'react';
+import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
+import ToastComponent from '../toast/toast';
 import './search-trip.scss';
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 function SearchTripComponent(props: Props) {
   const [ isLoading, setIsLoading ] = useState(false)
+  const [ showToast, setShowToast ] = useState(false)
   const [ inputText, setInputText] = useState('');
 
   useEffect(() => {
@@ -17,12 +18,11 @@ function SearchTripComponent(props: Props) {
   }, [props.searchText])
 
   const copyToClipboard = () => {
-    setTimeout(
-      () => {
-        setIsLoading(false)
-      }, 1000)
+    setShowToast(true)
 
-    setIsLoading(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000)
     navigator.clipboard.writeText(window.location.href)
   }
 
@@ -84,6 +84,9 @@ function SearchTripComponent(props: Props) {
           </Button>
         </Col>
       </Row>
+
+      {/* toast */}
+      <ToastComponent status={true} message='Link copied!' stylesClass={showToast? '':'d-none'} />
     </React.Fragment>
   )
 }
