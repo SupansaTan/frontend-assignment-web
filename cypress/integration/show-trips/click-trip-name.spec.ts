@@ -1,18 +1,24 @@
 /// <reference types="cypress" />
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, And, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I visit on the homepage', () => {
-  cy.visit('/trip-finder')
+  cy.visit('http://localhost:3000/trip-finder')
 })
 
 Then('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
-  cy.get('h4.fw-bold').contains('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"')
+  cy.get('.container a')
+    .should('have.class', 'text-decoration-none text-black')
+    .find('h4')
+    .contains('คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!')
 })
 
-When('I click "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
-  cy.get('h4.fw-bold').contains('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"').click()
-})
-
-Then('I should see the new tab of that trip', () => {
-  cy.window().its('open').should('be.called')
+And('I can click "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
+  cy.get('.container')
+    .get('.card')
+    .first()
+    .find('a')
+    .should('have.class', 'text-decoration-none text-black')
+    .should('have.attr', 'href', 'https://www.wongnai.com/trips/travel-koh-chang')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'rel', 'noopener noreferrer')
 })

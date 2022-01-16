@@ -1,22 +1,29 @@
 /// <reference types="cypress" />
-import { Given, When, Then, And } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then, And } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I visit on the homepage', () => {
-  cy.visit('/trip-finder')
+  cy.visit('http://localhost:3000/trip-finder')
 })
 
-Then('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
-  cy.get('h4.fw-bold').contains('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"')
+Then('I should see "ลัดเลาะ 10 ที่เที่ยวย่าน BTS สายสีเขียว"', () => {
+  cy.get('h4')
+    .should('have.class', 'fw-bold')
+    .contains('ลัดเลาะ 10 ที่เที่ยวย่าน BTS สายสีเขียว')
 })
 
 And('I should see "อ่านต่อ" on trip description', () => {
-  cy.get('.trip-description').contains('วันว่างนี้ไปเที่ยวเกาะช้างกัน').contains('อ่านต่อ')
+  cy.get('.trip-description')
+    .eq(1)
+    .find('span')
+    .contains('อ่านต่อ')
 })
 
-When('I click "อ่านต่อ"', () => {
-  cy.get('').contains('อ่านต่อ').click()
-})
-
-Then('I should see the new tab of that trip', () => {
-  cy.window().its('open').should('be.called')
+And('I can click "อ่านต่อ"', () => {
+  cy.get('.trip-description')
+    .eq(1)
+    .find('span a')
+    .should('have.attr', 'href', 'https://www.wongnai.com/trips/new-bts-route-trips')
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'rel', 'noopener noreferrer')
+    .contains('อ่านต่อ')
 })

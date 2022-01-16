@@ -2,7 +2,7 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I visit on the homepage', () => {
-  cy.visit('/trip-finder')
+  cy.visit('http://localhost:3000/trip-finder')
 })
 
 Then('I should see 10 trips', () => {

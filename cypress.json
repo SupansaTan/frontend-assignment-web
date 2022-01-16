@@ -1,5 +1,7 @@
-{
-  "env": {
-    "homepageUrl": "/trip-finder"
-  }
+{ 
+  "integrationFolder": "cypress/integration",
+  "supportFile": "cypress/support/index.ts",
+  "pluginsFile": "cypress/plugins/index.js",
+  "fixturesFolder": "cypress/fixtures",
+  "testFiles": "**/*.feature"
 }
