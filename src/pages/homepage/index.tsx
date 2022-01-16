@@ -20,7 +20,7 @@ function HomePage() {
     if(keyword) {
       changeSearchText(keyword);
     }
-  }, [searchParams, changeSearchText])
+  }, [searchParams])
 
   useEffect(() => {
     const setUrlParams = () => {
@@ -35,7 +35,7 @@ function HomePage() {
     }
 
     setUrlParams()
-  }, [searchText, navigate])
+  }, [searchText])
 
   return(
     <React.Fragment>
