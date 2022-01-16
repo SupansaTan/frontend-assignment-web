@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import TextTruncate from 'react-text-truncate';
-import { TripModel } from '../../model/trip.model';
+import { TripModel } from '../../../model/trip.model';
 import SkeletonTripCard from '../skeleton-trip-card/skeleton-trip-card';
-import { environment } from '../../environments/environment';
+import ModalImageComponent from '../../../components/modal-image/modal-image';
+import { environment } from '../../../environments/environment';
 import './trip-card.scss';
 
 interface TagProps {
