@@ -39,11 +39,11 @@ function SearchTripComponent() {
 
   return(
     <React.Fragment>
-      <Row>
+      <Row className="gx-2">
         {/* search input form */}
         <Col xs={12}>
-          <Row className="col-12 col-lg-6 mx-auto">
-            <Col className="position-relative search-wrapper">
+          <Row className="col-12 col-lg-6 mx-auto gx-2">
+            <Col className="position-relative search-wrapper ps-2">
               <Form.Control
                 type="search"
                 value={inputText}
