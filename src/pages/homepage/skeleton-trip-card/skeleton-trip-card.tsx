@@ -1,12 +1,9 @@
 import React, {useContext} from 'react';
 import { Placeholder, Card, Row, Col } from 'react-bootstrap';
 import { WindowResizeContext } from '../../../context/window-resize';
+import { SkeletonTripCardProps } from '../../../model/homepage/skeleton-trip-card.model';
 
-interface Props {
-  cardKey: string; 
-}
-
-function SkeletonTripCard(props: Props) {
+function SkeletonTripCard(props: SkeletonTripCardProps) {
   const isMobile = useContext<Boolean>(WindowResizeContext)
   const photoGroupStyle = { width: (isMobile? '90px':'100px'), height: (isMobile? '90px':'100px') }
 

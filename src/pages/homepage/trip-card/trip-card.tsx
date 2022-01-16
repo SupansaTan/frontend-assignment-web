@@ -2,36 +2,25 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import TextTruncate from 'react-text-truncate';
 import { TripModel } from '../../../model/trip.model';
+import { TagProps, ImageGroupProps } from '../../../model/homepage/trip-card.model';
 import SkeletonTripCard from '../skeleton-trip-card/skeleton-trip-card';
 import { WindowResizeContext } from '../../../context/window-resize';
+import { SearchTextContext } from '../../../context/search-text';
 import ModalImageComponent from '../../../components/modal-image/modal-image';
 import { environment } from '../../../environments/environment';
 import './trip-card.scss';
 
-interface TagProps {
-  tags: Array<string>;
-  handleOnClick: any;
-}
-
-interface ImageGroupProps {
-  photos: Array<string>
-}
-
-interface Props {
-  searchTerms: string;
-  onClickTag: any;
-}
-
-function TripCardComponent(props: Props) {
+function TripCardComponent() {
   const [trips, setTrips] = useState<Array<TripModel>>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [fetchFailed, setFetchFailed] = useState<boolean>(false)
   const isMobile = useContext<Boolean>(WindowResizeContext)
+  const { searchText, changeSearchText } = useContext(SearchTextContext)
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'auto'});
     fetchTripsData()
-  }, [props.searchTerms])
+  }, [searchText])
 
   const getSkeletonGroup = () => {
     let cards = [];
@@ -44,8 +33,9 @@ function TripCardComponent(props: Props) {
   async function fetchTripsData() {
     try {
       setIsLoading(true)
-      if(props.searchTerms.length > 0) {
-        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${props.searchTerms}`);
+
+      if(searchText.length > 0) {
+        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${searchText}`);
         const data = await response.json();
         setTrips(data.trips)
       }
@@ -54,14 +44,14 @@ function TripCardComponent(props: Props) {
         const data = await response.json();
         setTrips(data.trips)
       }
-      
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
     } 
     catch (error) {
       setFetchFailed(true)
-      setIsLoading(false)
+    }
+    finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
     }
   }
 
@@ -109,7 +99,7 @@ function TripCardComponent(props: Props) {
                       {/* tags */}
                       <div className="d-flex flex-wrap justify-content-start align-items-center">
                         <span className="me-2 mt-2">หมวด</span>
-                        <TagGroup tags={trip.tags} handleOnClick={(tagTitle: string) => props.onClickTag(tagTitle)}/>
+                        <TagGroup tags={trip.tags} handleOnClick={(tagTitle: string) => changeSearchText(tagTitle)}/>
                       </div>
 
                       {/* photos */}
@@ -123,7 +113,7 @@ function TripCardComponent(props: Props) {
             })
           )
         : (
-            <p className="text-center">'{ props.searchTerms }' Not Found.</p>
+            <p className="text-center">'{ searchText }' Not Found.</p>
           )
       }
     </React.Fragment>

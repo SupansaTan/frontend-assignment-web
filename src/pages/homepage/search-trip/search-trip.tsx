@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
 import ToastComponent from '../../../components/toast/toast';
+import { SearchTextContext } from '../../../context/search-text';
 import './search-trip.scss';
 
 interface Props {
@@ -8,14 +9,15 @@ interface Props {
   onSearch: any;
 }
 
-function SearchTripComponent(props: Props) {
+function SearchTripComponent() {
   const [ isLoading, setIsLoading ] = useState(false)
   const [ showToast, setShowToast ] = useState(false)
   const [ inputText, setInputText] = useState('');
+  const { searchText, changeSearchText } = useContext(SearchTextContext);
 
   useEffect(() => {
-    setInputText(props.searchText)
-  }, [props.searchText])
+    setInputText(searchText)
+  }, [searchText])
 
   const copyToClipboard = () => {
     setShowToast(true)
@@ -32,7 +34,7 @@ function SearchTripComponent(props: Props) {
 
   const clearSearchTerms = () => {
     setInputText('');
-    props.onSearch('');
+    changeSearchText('');
   }
 
   const handleKeyPress = (target: React.KeyboardEvent) => {
@@ -42,7 +44,7 @@ function SearchTripComponent(props: Props) {
   }
 
   const onSubmitSearch = () => {
-    props.onSearch(inputText)
+    changeSearchText(inputText);
   }
 
   return(
@@ -63,7 +65,7 @@ function SearchTripComponent(props: Props) {
                 aria-label="SearchTrip"
               />
               <a onClick={(e) => {e.preventDefault(); clearSearchTerms();}}>
-                <i className={"bi bi-x-lg position-absolute " + (inputText.length>0? '':'d-none')}></i>
+                <i className={"bi bi-x-lg position-absolute text-secondary " + (inputText.length>0? '':'d-none')}></i>
               </a>
             </Col>
 
@@ -80,7 +82,7 @@ function SearchTripComponent(props: Props) {
           <Button className="border-0 shadow-none text-black bg-lightgrey share-btn rounded-3"
             onClick={() => copyToClipboard()}>
             <i className={"bi bi-link-45deg text-black me-2 " + (isLoading? 'd-none':'')}></i>
-            { "แชร์ทริป" + (inputText.length>0? ` '${inputText}'`:'') }
+            { "แชร์ทริป" + (inputText.length>0? ` '${inputText}'`:'ทั้งหมด') }
             <Spinner animation="border" variant="secondary" size="sm" className={isLoading? '':'d-none'} />
           </Button>
         </Col>

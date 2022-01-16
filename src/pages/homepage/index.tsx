@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Row } from 'react-bootstrap';
 import Typewriter from 'typewriter-effect';
-import { SearchTermsProvider } from '../../context/search-terms';
 import SearchTripComponent from './search-trip/search-trip';
 import TripCardComponent from './trip-card/trip-card';
+import { SearchTextContext } from '../../context/search-text';
 import { useTitle } from '../../useTitle';
 import { useNavigate } from "react-router-dom"
 import { useSearchParams } from 'react-router-dom';
@@ -11,34 +11,31 @@ import './index.scss';
 
 function HomePage() {
   const [searchParams] = useSearchParams()
-  const [searchText, setSearchText]  = useState<string>('')
+  const {searchText, changeSearchText} = useContext(SearchTextContext)
   const navigate = useNavigate()
   useTitle("เที่ยวไหนดี")
 
   useEffect(() => {
     const keyword = searchParams.get("q");
     if(keyword) {
-      setSearchText(keyword);
+      changeSearchText(keyword);
     }
   }, [searchParams])
 
   useEffect(() => {
-    setUrlParams();
-  }, [searchText])
-
-  const changeSearchText = (inputText: string) => {
-    setSearchText(inputText);
-  }
-
-  const setUrlParams = () => {
-    const params = new URLSearchParams()
-    if (searchText) {
-      params.append("q", searchText)
-    } else {
-      params.delete("q")
+    const setUrlParams = () => {
+      const params = new URLSearchParams()
+      if (searchText) {
+        params.append("q", searchText)
+      }
+      else {
+        params.delete("q")
+      }
+      navigate({search: params.toString()})
     }
-    navigate({search: params.toString()})
-  }
+
+    setUrlParams()
+  }, [searchText])
 
   return(
     <React.Fragment>
@@ -51,10 +48,8 @@ function HomePage() {
           }}
         />
 
-        <SearchTermsProvider>
-          <SearchTripComponent searchText={searchText} onSearch={changeSearchText} />
-          <TripCardComponent searchTerms={searchText} onClickTag={changeSearchText}/>
-        </SearchTermsProvider>
+        <SearchTripComponent />
+        <TripCardComponent />
       </Row>
     </React.Fragment>
   )

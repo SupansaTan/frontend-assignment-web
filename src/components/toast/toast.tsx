@@ -1,13 +1,8 @@
 import React from 'react';
-import { Toast, ToastContainer } from 'react-bootstrap'
+import { Toast, ToastContainer } from 'react-bootstrap';
+import { ToastProps } from '../../model/toast.model';
 
-interface Props {
-  status: boolean
-  message: string
-  stylesClass: string
-}
-
-function ToastComponent(props: Props) {
+function ToastComponent(props: ToastProps) {
   return(
     <React.Fragment>
       <div
