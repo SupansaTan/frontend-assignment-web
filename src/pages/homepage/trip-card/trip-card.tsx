@@ -14,6 +14,8 @@ function TripCardComponent() {
   const [trips, setTrips] = useState<Array<TripModel>>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [fetchFailed, setFetchFailed] = useState<boolean>(false)
+  const [showModalImage, setShowModalImage] = useState<boolean>(false)
+  const [modalImageSrc, setModalImageSrc] = useState<string>('')
   const isMobile = useContext<Boolean>(WindowResizeContext)
   const { searchText, changeSearchText } = useContext(SearchTextContext)
 
@@ -105,7 +107,12 @@ function TripCardComponent() {
 
                       {/* photos */}
                       <div className={"d-flex align-items-center mt-3 " + (isMobile? 'justify-content-center':'justify-content-start')}>
-                        <ImageGroup eid={trip.eid} photos={trip.photos} startIndex={1}/>
+                        <ImageGroup 
+                          eid={trip.eid} 
+                          photos={trip.photos} 
+                          startIndex={1} 
+                          handleOnClick={(src: string) => {setModalImageSrc(src); setShowModalImage(true)}}
+                        />
                       </div>
                     </Col>
                   </Row>
@@ -117,6 +124,9 @@ function TripCardComponent() {
             <p className="text-center">'{ searchText }' Not Found.</p>
           )
       }
+
+      {/* modal image for preview image */}
+      <ModalImageComponent src={modalImageSrc} showModal={showModalImage} changeShowModal={() => setShowModalImage(false)}/>
     </React.Fragment>
   )
 }
@@ -143,13 +153,16 @@ const TagGroup = (tagProps: TagProps) => {
 const ImageGroup = (imageGroupProps: ImageGroupProps) => {
   const isMobile = useContext<Boolean>(WindowResizeContext)
   const photos = imageGroupProps.photos.slice(imageGroupProps.startIndex);
-  
+
   return(
     <React.Fragment>
       {
         photos.map((photo: string, index: number) => {
           return (
-            <Image key={"trip_" + imageGroupProps.eid + "_photo_" + index} src={photo} width={isMobile? 90:100} height={isMobile? 90:100}  
+            <Image 
+              key={"trip_" + imageGroupProps.eid + "_photo_" + index} 
+              src={photo} width={isMobile? 90:100} height={isMobile? 90:100}
+              onClick={() => imageGroupProps.handleOnClick(photo)}  
               className={"trip-img rounded-15 " + (isMobile? 'me-2':'me-4')}
             />
           )
