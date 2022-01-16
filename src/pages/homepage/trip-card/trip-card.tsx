@@ -18,6 +18,31 @@ function TripCardComponent() {
   const { searchText, changeSearchText } = useContext(SearchTextContext)
 
   useEffect(() => {
+    async function fetchTripsData() {
+      try {
+        setIsLoading(true)
+  
+        if(searchText.length > 0) {
+          const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${searchText}`);
+          const data = await response.json();
+          setTrips(data.trips)
+        }
+        else {
+          const response = await fetch(`${environment.apiGateway.URL}/api/trips`);
+          const data = await response.json();
+          setTrips(data.trips)
+        }
+      } 
+      catch (error) {
+        setFetchFailed(true)
+      }
+      finally {
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 1000)
+      }
+    }
+
     window.scrollTo({top: 0, behavior: 'auto'});
     fetchTripsData()
   }, [searchText])
@@ -25,34 +50,9 @@ function TripCardComponent() {
   const getSkeletonGroup = () => {
     let cards = [];
     for(let i=0; i<5; i++){
-      cards.push(<SkeletonTripCard cardKey={'trip-' + i }/>);
+      cards.push(<SkeletonTripCard key={i}/>);
     }
     return cards;
-  }
-
-  async function fetchTripsData() {
-    try {
-      setIsLoading(true)
-
-      if(searchText.length > 0) {
-        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${searchText}`);
-        const data = await response.json();
-        setTrips(data.trips)
-      }
-      else {
-        const response = await fetch(`${environment.apiGateway.URL}/api/trips`);
-        const data = await response.json();
-        setTrips(data.trips)
-      }
-    } 
-    catch (error) {
-      setFetchFailed(true)
-    }
-    finally {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
-    }
   }
 
   return(
@@ -68,9 +68,10 @@ function TripCardComponent() {
           )
         : (!isLoading && trips.length > 0)
         ? (
-            trips.map((trip: TripModel) => {
+            trips.map((trip: TripModel, index: number) => {
+              
               return(
-                <Card key={trip.title} className="border-0 my-4">
+                <Card key={"trip_" + index} className="border-0 my-4">
                   <Row className='g-3'>
                     <Col xs={12} md="auto" className={isMobile? 'd-flex justify-content-center':''}>
                       <Image 
@@ -99,12 +100,12 @@ function TripCardComponent() {
                       {/* tags */}
                       <div className="d-flex flex-wrap justify-content-start align-items-center">
                         <span className="me-2 mt-2">หมวด</span>
-                        <TagGroup tags={trip.tags} handleOnClick={(tagTitle: string) => changeSearchText(tagTitle)}/>
+                        <TagGroup eid={trip.eid} tags={trip.tags} handleOnClick={(tagTitle: string) => changeSearchText(tagTitle)}/>
                       </div>
 
                       {/* photos */}
                       <div className={"d-flex align-items-center mt-3 " + (isMobile? 'justify-content-center':'justify-content-start')}>
-                        <ImageGroup photos={trip.photos} />
+                        <ImageGroup eid={trip.eid} photos={trip.photos} startIndex={1}/>
                       </div>
                     </Col>
                   </Row>
@@ -127,7 +128,7 @@ const TagGroup = (tagProps: TagProps) => {
         tagProps.tags.map((tag: string, index: number) => {
           return(
             <Button 
-              key={tag} 
+              key={tagProps.eid + "_" + tag} 
               onClick={() => {tagProps.handleOnClick(tag)}}
               className={'rounded-3 text-black bg-lightgrey border-lightgrey rounded-25 shadow-none mt-2 tag-btn ' + ((index === 0)? 'me-1':'mx-1')}>
               { tag }
@@ -139,21 +140,19 @@ const TagGroup = (tagProps: TagProps) => {
   )
 }
 
-const ImageGroup = ({photos}: ImageGroupProps) => {
+const ImageGroup = (imageGroupProps: ImageGroupProps) => {
   const isMobile = useContext<Boolean>(WindowResizeContext)
-
+  const photos = imageGroupProps.photos.slice(imageGroupProps.startIndex);
+  
   return(
     <React.Fragment>
       {
         photos.map((photo: string, index: number) => {
-          if(index > 0) {
-            return(
-              <Image src={photo} width={isMobile? 90:100} height={isMobile? 90:100} key={photo} 
-                className={"trip-img rounded-15 " + (isMobile? 'me-2':'me-4')}
-              />
-            )
-          }
-          return(<></>)
+          return (
+            <Image key={"trip_" + imageGroupProps.eid + "_photo_" + index} src={photo} width={isMobile? 90:100} height={isMobile? 90:100}  
+              className={"trip-img rounded-15 " + (isMobile? 'me-2':'me-4')}
+            />
+          )
         })
       }
     </React.Fragment>

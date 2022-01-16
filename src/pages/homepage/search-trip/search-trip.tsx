@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 import ToastComponent from '../../../components/toast/toast';
 import { SearchTextContext } from '../../../context/search-text';
 import './search-trip.scss';
 
-interface Props {
-  searchText: string;
-  onSearch: any;
-}
-
 function SearchTripComponent() {
-  const [ isLoading, setIsLoading ] = useState(false)
   const [ showToast, setShowToast ] = useState(false)
   const [ inputText, setInputText] = useState('');
   const { searchText, changeSearchText } = useContext(SearchTextContext);
@@ -20,16 +14,12 @@ function SearchTripComponent() {
   }, [searchText])
 
   const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href)
     setShowToast(true)
 
     setTimeout(() => {
       setShowToast(false)
     }, 3000)
-    navigator.clipboard.writeText(window.location.href)
-  }
-
-  const onSearchTermsChange = (value: string) => {
-    setInputText(value)
   }
 
   const clearSearchTerms = () => {
@@ -38,9 +28,9 @@ function SearchTripComponent() {
   }
 
   const handleKeyPress = (target: React.KeyboardEvent) => {
-    if(target.key == 'Enter'){
+    if(target.key === 'Enter'){
       onSubmitSearch()
-    } 
+    }
   }
 
   const onSubmitSearch = () => {
@@ -57,14 +47,14 @@ function SearchTripComponent() {
               <Form.Control
                 type="search"
                 value={inputText}
-                onChange={(e) => {onSearchTermsChange(e.target.value);}}
+                onChange={(e) => {setInputText(e.target.value);}}
                 onKeyPress={handleKeyPress}
                 placeholder="หาที่เที่ยวแล้วไปกัน..."
                 id="search_terms"
                 className="my-4 border-0 border-bottom rounded-0 shadow-none text-center search-trip"
                 aria-label="SearchTrip"
               />
-              <a onClick={(e) => {e.preventDefault(); clearSearchTerms();}}>
+              <a href="/trip-finder" onClick={(e) => {e.preventDefault(); clearSearchTerms();}}>
                 <i className={"bi bi-x-lg position-absolute text-secondary " + (inputText.length>0? '':'d-none')}></i>
               </a>
             </Col>
@@ -81,9 +71,8 @@ function SearchTripComponent() {
         <Col xs={12} className="d-flex justify-content-end">
           <Button className="border-0 shadow-none text-black bg-lightgrey share-btn rounded-3"
             onClick={() => copyToClipboard()}>
-            <i className={"bi bi-link-45deg text-black me-2 " + (isLoading? 'd-none':'')}></i>
-            { "แชร์ทริป" + (inputText.length>0? ` '${inputText}'`:'ทั้งหมด') }
-            <Spinner animation="border" variant="secondary" size="sm" className={isLoading? '':'d-none'} />
+            <i className="bi bi-link-45deg text-black me-2"></i>
+            Share Link
           </Button>
         </Col>
       </Row>

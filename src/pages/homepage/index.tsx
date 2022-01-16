@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Row } from 'react-bootstrap';
 import Typewriter from 'typewriter-effect';
 import SearchTripComponent from './search-trip/search-trip';
@@ -20,7 +20,7 @@ function HomePage() {
     if(keyword) {
       changeSearchText(keyword);
     }
-  }, [searchParams])
+  }, [searchParams, changeSearchText])
 
   useEffect(() => {
     const setUrlParams = () => {
@@ -35,7 +35,7 @@ function HomePage() {
     }
 
     setUrlParams()
-  }, [searchText])
+  }, [searchText, navigate])
 
   return(
     <React.Fragment>

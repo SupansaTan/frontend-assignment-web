@@ -1,15 +1,14 @@
 import React, {useContext} from 'react';
 import { Placeholder, Card, Row, Col } from 'react-bootstrap';
 import { WindowResizeContext } from '../../../context/window-resize';
-import { SkeletonTripCardProps } from '../../../model/homepage/skeleton-trip-card.model';
 
-function SkeletonTripCard(props: SkeletonTripCardProps) {
+function SkeletonTripCard() {
   const isMobile = useContext<Boolean>(WindowResizeContext)
   const photoGroupStyle = { width: (isMobile? '90px':'100px'), height: (isMobile? '90px':'100px') }
 
   return(
     <React.Fragment>
-      <Card className="border-0 my-4 transition-all" key={props.cardKey}>
+      <Card className="border-0 my-4 transition-all">
         <Row className="g-3">
           <Col xs={12} md="auto">
             {/* cover photo */}
