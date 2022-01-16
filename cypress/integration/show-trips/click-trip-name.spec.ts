@@ -1,0 +1,18 @@
+/// <reference types="cypress" />
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+
+Given('I visit on the homepage', () => {
+  cy.visit('/trip-finder')
+})
+
+Then('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
+  cy.get('h4.fw-bold').contains('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"')
+})
+
+When('I click "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"', () => {
+  cy.get('h4.fw-bold').contains('I should see "คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!"').click()
+})
+
+Then('I should see the new tab of that trip', () => {
+  cy.window().its('open').should('be.called')
+})
