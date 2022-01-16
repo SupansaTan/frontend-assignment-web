@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Container, Navbar } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUmbrellaBeach } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   children: JSX.Element
@@ -30,7 +32,10 @@ function LayoutComponent({ children }: Props) {
     <React.Fragment>
       <Navbar className={"bg-blue transition-all " + (isScroll? 'opacity-100':'opacity-0')} sticky="top">
         <Container>
-          <Navbar.Brand href="/" className="fw-bold text-white">เที่ยวไหนดี</Navbar.Brand>
+          <Navbar.Brand href="/" className="fw-bold text-white">
+            <FontAwesomeIcon icon={faUmbrellaBeach} className='me-2'/>
+            เที่ยวไหนดี
+          </Navbar.Brand>
         </Container>
       </Navbar>
 
