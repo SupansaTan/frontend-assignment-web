@@ -1,22 +1,30 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Placeholder, Card, Row, Col } from 'react-bootstrap';
+import { WindowResizeContext } from '../../../context/window-resize';
 
 interface Props {
   cardKey: string; 
 }
 
 function SkeletonTripCard(props: Props) {
+  const isMobile = useContext<Boolean>(WindowResizeContext)
+  const photoGroupStyle = { width: (isMobile? '90px':'100px'), height: (isMobile? '90px':'100px') }
+
   return(
     <React.Fragment>
       <Card className="border-0 my-4 transition-all" key={props.cardKey}>
-        <Row>
-          <Col xs={12} lg="auto">
-            <Placeholder as="div" animation="glow" style={{ width: '200px', height: '100%'}}>
+        <Row className="g-3">
+          <Col xs={12} md="auto">
+            {/* cover photo */}
+            <Placeholder as="div" animation="glow" 
+              style={{ width: (isMobile? '100%':'200px'), height: (isMobile? '200px':'100%')}}
+            >
               <Placeholder xs={12} className='rounded-15 bg-grey h-100'/>
             </Placeholder>
           </Col>
 
-          <Col xs={12} className="col-lg">
+          <Col xs={12} className="col-md">
+            {/* title */}
             <Placeholder as="h3" animation="glow">
               <Placeholder xs={12} lg={10} className='rounded-3 bg-grey'/>
             </Placeholder>
@@ -29,21 +37,21 @@ function SkeletonTripCard(props: Props) {
             </Placeholder>
 
             {/* tags */}
-            <Placeholder as="h3" animation="glow">
-              <Placeholder xs={1} className='rounded-15 bg-grey me-2'/> 
-              <Placeholder xs={1} className='rounded-15 bg-grey me-2'/> 
-              <Placeholder xs={1} className='rounded-15 bg-grey'/>
+            <Placeholder as={isMobile? "h2":"h3"} animation="glow">
+              <Placeholder xs={3} md={2} lg={1} className='rounded-15 bg-grey me-2'/> 
+              <Placeholder xs={3} md={2} lg={1} className='rounded-15 bg-grey me-2'/> 
+              <Placeholder xs={3} md={2} lg={1} className='rounded-15 bg-grey'/>
             </Placeholder>
 
             {/* photos */}
-            <div className="d-flex justify-content-start mt-3">
-              <Placeholder as="div" animation="glow" className="me-3" style={{ width: '100px', height: '100px'}}>
+            <div className={"d-flex mt-3 " + (isMobile? 'justify-content-center':'justify-content-start')}>
+              <Placeholder as="div" animation="glow" className={isMobile? "me-2":"me-3"} style={ photoGroupStyle }>
                 <Placeholder xs={12} className='rounded-15 bg-grey h-100'/>
               </Placeholder>
-              <Placeholder as="div" animation="glow" className="me-3" style={{ width: '100px', height: '100px'}}>
+              <Placeholder as="div" animation="glow" className={isMobile? "me-2":"me-3"} style={ photoGroupStyle }>
                 <Placeholder xs={12} className='rounded-15 bg-grey h-100'/>
               </Placeholder>
-              <Placeholder as="div" animation="glow" style={{ width: '100px', height: '100px'}}>
+              <Placeholder as="div" animation="glow" style={ photoGroupStyle }>
                 <Placeholder xs={12} className='rounded-15 bg-grey h-100'/>
               </Placeholder>
             </div>

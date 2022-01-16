@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import TextTruncate from 'react-text-truncate';
 import { TripModel } from '../../../model/trip.model';
 import SkeletonTripCard from '../skeleton-trip-card/skeleton-trip-card';
+import { WindowResizeContext } from '../../../context/window-resize';
 import ModalImageComponent from '../../../components/modal-image/modal-image';
 import { environment } from '../../../environments/environment';
 import './trip-card.scss';
@@ -22,10 +23,10 @@ interface Props {
 }
 
 function TripCardComponent(props: Props) {
-  const [ trips, setTrips ] = useState<Array<TripModel>>([])
-  const [ isLoading, setIsLoading ] = useState<boolean>(true)
-  const [ fetchFailed, setFetchFailed ] = useState<boolean>(false)
-  // const [ isMobile, setIsMobile ] = useState()
+  const [trips, setTrips] = useState<Array<TripModel>>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [fetchFailed, setFetchFailed] = useState<boolean>(false)
+  const isMobile = useContext<Boolean>(WindowResizeContext)
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'auto'});
@@ -44,7 +45,7 @@ function TripCardComponent(props: Props) {
     try {
       setIsLoading(true)
       if(props.searchTerms.length > 0) {
-        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=` + props.searchTerms);
+        const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${props.searchTerms}`);
         const data = await response.json();
         setTrips(data.trips)
       }
@@ -80,12 +81,17 @@ function TripCardComponent(props: Props) {
             trips.map((trip: TripModel) => {
               return(
                 <Card key={trip.title} className="border-0 my-4">
-                  <Row>
-                    <Col xs={12} lg="auto">
-                      <Image src={trip.photos[0]} width={200} height={'100%'} className="trip-img rounded-15" alt={trip.title}/>
+                  <Row className='g-3'>
+                    <Col xs={12} md="auto" className={isMobile? 'd-flex justify-content-center':''}>
+                      <Image 
+                        src={trip.photos[0]} 
+                        width={isMobile? '100%':200} 
+                        height={isMobile? 200:'100%'} 
+                        className="trip-img rounded-15"
+                        alt={trip.title}/>
                     </Col>
 
-                    <Col xs={12} className="col-lg">
+                    <Col xs={12} className="col-md">
                       <a href={trip.url} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-black">
                         <h4 className="fw-bold">{ trip.title }</h4>
                       </a>
@@ -96,7 +102,7 @@ function TripCardComponent(props: Props) {
                         element="div"
                         truncateText=" .... "
                         text={trip.description}
-                        containerClassName="text-secondary description"
+                        containerClassName="text-secondary trip-description"
                         textTruncateChild={<a href={trip.url} target="_blank" rel="noopener noreferrer">อ่านต่อ</a>}
                       />
 
@@ -107,7 +113,7 @@ function TripCardComponent(props: Props) {
                       </div>
 
                       {/* photos */}
-                      <div className="d-flex justify-content-start align-items-center mt-3">
+                      <div className={"d-flex align-items-center mt-3 " + (isMobile? 'justify-content-center':'justify-content-start')}>
                         <ImageGroup photos={trip.photos} />
                       </div>
                     </Col>
@@ -144,13 +150,17 @@ const TagGroup = (tagProps: TagProps) => {
 }
 
 const ImageGroup = ({photos}: ImageGroupProps) => {
+  const isMobile = useContext<Boolean>(WindowResizeContext)
+
   return(
     <React.Fragment>
       {
         photos.map((photo: string, index: number) => {
           if(index > 0) {
             return(
-              <Image src={photo} width={100} height={100} key={photo} className="trip-img me-4 rounded-15"/>
+              <Image src={photo} width={isMobile? 90:100} height={isMobile? 90:100} key={photo} 
+                className={"trip-img rounded-15 " + (isMobile? 'me-2':'me-4')}
+              />
             )
           }
           return(<></>)

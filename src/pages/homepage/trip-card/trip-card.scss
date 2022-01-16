@@ -10,10 +10,12 @@
   }
 }
 
-.trip-img {
-  object-fit: cover;
-}
+.trip {
+  &-img {
+    object-fit: cover;
+  }
 
-.description {
-  white-space: pre-line;
+  &-description {
+    white-space: pre-line;
+  }
 }
