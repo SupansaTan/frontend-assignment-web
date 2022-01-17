@@ -25,6 +25,7 @@ function TripCardComponent() {
         setIsLoading(true)
   
         if(searchText.length > 0) {
+          // filter trips by keyword
           const response = await fetch(`${environment.apiGateway.URL}/api/trips?keyword=${searchText}`);
           const data = await response.json();
           setTrips(data.trips)
@@ -35,7 +36,7 @@ function TripCardComponent() {
           setTrips(data.trips)
         }
       } 
-      catch (error) {
+      catch {
         setFetchFailed(true)
       }
       finally {
@@ -50,6 +51,7 @@ function TripCardComponent() {
   }, [searchText])
 
   const getSkeletonGroup = () => {
+    // create skeleton cards
     let cards = [];
     for(let i=0; i<5; i++){
       cards.push(<SkeletonTripCard key={i}/>);
@@ -60,9 +62,9 @@ function TripCardComponent() {
   return(
     <React.Fragment>
       {
-        (fetchFailed)
+        fetchFailed
         ? (
-            <p className="text-center">Sorry, Can not fetch trips data now.</p>
+            <p className="text-center fw-bold">Sorry, Cannot get trips data now.</p>
           )
         : isLoading
         ? (
@@ -71,9 +73,8 @@ function TripCardComponent() {
         : (!isLoading && trips.length > 0)
         ? (
             trips.map((trip: TripModel, index: number) => {
-              
               return(
-                <Card key={"trip_" + index} className="border-0 my-4">
+                <Card key={index} className="border-0 my-4">
                   <Row className='g-3'>
                     <Col xs={12} md="auto" className={isMobile? 'd-flex justify-content-center':''}>
                       <Image 
@@ -121,7 +122,7 @@ function TripCardComponent() {
             })
           )
         : (
-            <p className="text-center">'{ searchText }' Not Found.</p>
+            <p className="text-center fw-bold">'{ searchText }' Not Found.</p>
           )
       }
 
@@ -138,7 +139,7 @@ const TagGroup = (tagProps: TagProps) => {
         tagProps.tags.map((tag: string, index: number) => {
           return(
             <Button 
-              key={tagProps.eid + "_" + tag} 
+              key={index} 
               onClick={() => {tagProps.handleOnClick(tag)}}
               className={'rounded-3 text-black bg-lightgrey border-lightgrey rounded-25 shadow-none mt-2 tag-btn ' + ((index === 0)? 'me-1':'mx-1')}>
               { tag }
@@ -160,10 +161,10 @@ const ImageGroup = (imageGroupProps: ImageGroupProps) => {
         photos.map((photo: string, index: number) => {
           return (
             <Image 
-              key={"trip_" + imageGroupProps.eid + "_photo_" + index} 
+              key={index} 
               src={photo} width={isMobile? 90:100} height={isMobile? 90:100}
               onClick={() => imageGroupProps.handleOnClick(photo)}  
-              className={"trip-img rounded-15 " + (isMobile? 'me-2':'me-4')}
+              className={"trip-img rounded-15 sub " + (isMobile? 'me-2':'me-4')}
             />
           )
         })

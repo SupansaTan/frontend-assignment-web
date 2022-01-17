@@ -10,6 +10,7 @@ function SearchTripComponent() {
   const { searchText, changeSearchText } = useContext(SearchTextContext);
 
   useEffect(() => {
+    // when current url has search keyword
     setInputText(searchText)
   }, [searchText])
 

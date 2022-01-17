@@ -11,12 +11,17 @@ function LayoutComponent({ children }: Props) {
   const [isScroll, setIsScroll] = useState(false)
 
   const handleScroll = useCallback((event) => {
-    let scrollTop = event.target.scrollingElement.scrollTop
-    if(scrollTop >= 20) {
-      setIsScroll(true)
+    try {
+      let scrollTop = event.target.scrollingElement.scrollTop
+      if(scrollTop >= 20) {
+        setIsScroll(true)
+      }
+      else {
+        setIsScroll(false)
+      }
     }
-    else {
-      setIsScroll(false)
+    catch(e) {
+      console.log(e)
     }
   }, [])
 
@@ -30,6 +35,7 @@ function LayoutComponent({ children }: Props) {
 
   return(
     <React.Fragment>
+      {/* Navbar */}
       <Navbar className={"bg-blue transition-all " + (isScroll? 'opacity-100':'opacity-0')} sticky="top">
         <Container>
           <Navbar.Brand href="/" className="fw-bold text-white">

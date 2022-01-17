@@ -16,6 +16,7 @@ function HomePage() {
   useTitle("เที่ยวไหนดี")
 
   useEffect(() => {
+    // when url has search keyword
     const keyword = searchParams.get("q");
     if(keyword) {
       changeSearchText(keyword);
@@ -23,6 +24,7 @@ function HomePage() {
   }, [searchParams])
 
   useEffect(() => {
+    // set keyword on url when submit search
     const setUrlParams = () => {
       const params = new URLSearchParams()
       if (searchText) {

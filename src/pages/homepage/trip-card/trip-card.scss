@@ -13,6 +13,10 @@
 .trip {
   &-img {
     object-fit: cover;
+
+    &.sub {
+      cursor: pointer;
+    }
   }
 
   &-description {
