@@ -40,6 +40,7 @@ function TripCardComponent() {
         setFetchFailed(true)
       }
       finally {
+        // delay hide skeleton for smooth
         setTimeout(() => {
           setIsLoading(false)
         }, 1000)
